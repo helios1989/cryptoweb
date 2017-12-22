@@ -1,16 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-
+import { MaterialModule } from './material.module';
+import { NavtoolbarComponent } from './component/navtoolbar/navtoolbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavtoolbarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

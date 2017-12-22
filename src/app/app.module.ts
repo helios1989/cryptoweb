@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { NavtoolbarComponent } from './component/navtoolbar/navtoolbar.component';
+import { IncomingIcoComponent } from './component/incoming-ico/incoming-ico.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavtoolbarComponent
+    NavtoolbarComponent,
+    IncomingIcoComponent
   ],
   imports: [
     BrowserModule,

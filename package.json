@@ -55,7 +55,6 @@
         "ts-node": "~3.2.0",
         "tslint": "~5.7.0",
         "typescript": "<2.5.0",
-        "bunyan": "^1.8.10",
         "core-js": "^2.4.1",
         "moment": "^2.18.1"
     },

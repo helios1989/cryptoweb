@@ -6,8 +6,6 @@ var bodyParser = require('body-parser');
 var mongodb = require('mongodb');
 var objectID = mongodb.ObjectID;
 
-var Logger = require('bunyan');
-var log = new Logger({ name: 'hello' /*, ... */ });
 var db = '';
 
 app.use(bodyParser.json());

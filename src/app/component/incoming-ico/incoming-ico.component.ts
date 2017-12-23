@@ -4,7 +4,8 @@ import { Ico} from './ico.model';
 @Component({
   selector: 'app-incoming-ico',
   templateUrl: './incoming-ico.component.html',
-  styleUrls: ['./incoming-ico.component.css']
+  styleUrls: ['./incoming-ico.component.css'],
+  providers: [IcoService]
 })
 export class IncomingIcoComponent implements OnInit {
   Icos: Ico[];

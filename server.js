@@ -24,8 +24,6 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
     db = database;
     console.log("Database conection ready");
     // ForceSSL middleware
-
-
 })
 
 const forceSSL = function() {
@@ -39,7 +37,7 @@ const forceSSL = function() {
     }
 }
 app.listen(port, function(r, res) {
-    console.log('listening to ' + port);
+    console.log('listening  to ' + port);
 });
 
 // app.use(forceSSL());

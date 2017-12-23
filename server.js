@@ -12,8 +12,7 @@ var db = '';
 
 app.use(bodyParser.json());
 //create link to angular build directory
-
-process.env.MONGODB_URI = 'mongodb://vergel:vergel@ds155424.mlab.com:55424/cryptoweb';
+process.env.MONGODB_URI = 'mongodb://vergel:vergel@ds029106.mlab.com:29106/heroku_dj330wf0';
 const port = process.env.PORT || 8602;
 //Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database) {

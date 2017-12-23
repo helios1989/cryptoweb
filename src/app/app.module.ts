@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { NavtoolbarComponent } from './component/navtoolbar/navtoolbar.component';
 import { IncomingIcoComponent } from './component/incoming-ico/incoming-ico.component';
 import { AppRoutingModule } from './app.routing.module';
+import { HttpModule } from '@angular/http';
 
 //services
 import { IcoService } from './component/incoming-ico/ico-services.service';
@@ -19,6 +20,7 @@ import { IcoService } from './component/incoming-ico/ico-services.service';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,

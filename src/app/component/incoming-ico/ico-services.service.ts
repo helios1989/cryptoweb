@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ico} from './ico.model';
+import { Router } from '@angular/router';
 import { Http, Response, Headers} from '@angular/http';
 import * as rxjs from 'rxjs';
 import 'rxjs/add/operator/toPromise';
@@ -7,11 +8,14 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class IcoService {
-  private ICOuri = '/api/incomingICO';
+  private base_url = window.location.origin;
+  private ICOuri = window.location.origin + '/api/incomingICO';
   
   constructor(private http: Http) { }
 
   getICOs() {
+      
+      console.log(this.ICOuri);
       return this.http.get(this.ICOuri)
       .toPromise()
       .then(response => response.json() as Ico[])

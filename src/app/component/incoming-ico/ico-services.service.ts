@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class IcoService {
-  private ICOuri = '/api/incomingICO'
+  private ICOuri = '/api/incomingICO';
   
   constructor(private http: Http) { }
 

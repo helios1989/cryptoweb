@@ -8,6 +8,9 @@ import { NavtoolbarComponent } from './component/navtoolbar/navtoolbar.component
 import { IncomingIcoComponent } from './component/incoming-ico/incoming-ico.component';
 import { AppRoutingModule } from './app.routing.module';
 
+//services
+import { IcoService } from './component/incoming-ico/ico-services.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,7 @@ import { AppRoutingModule } from './app.routing.module';
     AppRoutingModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [IcoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

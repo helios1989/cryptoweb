@@ -41,6 +41,10 @@ app.listen(port, function(r, res) {
 // app.use(forceSSL());
 app.use(express.static(__dirname + '/dist'));
 
+app.get('/api/health-check', function(req, res, next) {
+    res.json({ "status": "ok", "port": port });
+});
+
 app.get('/api/incomingICO', function(req, res, next) {
     // res.json({ "health": "ok" });
     request('https://api.icowatchlist.com/public/v1/upcoming', function(error, response, body) {

@@ -42,7 +42,7 @@ app.listen(port, function(r, res) {
 app.use(express.static(__dirname + '/dist'));
 
 
-app.get('/api/v1/health-check', function(req, res, next) {
+app.get('/api/incomingICO', function(req, res, next) {
     // res.json({ "health": "ok" });
     request('https://api.icowatchlist.com/public/v1/upcoming', function(error, response, body) {
         console.log('error:', error); // Print the error if one occurred

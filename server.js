@@ -8,6 +8,7 @@ var objectID = mongodb.ObjectID;
 
 var db = '';
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 //create link to angular build directory
 process.env.MONGODB_URI = 'mongodb://vergel:vergel@ds029106.mlab.com:29106/heroku_dj330wf0';

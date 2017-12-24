@@ -14,9 +14,11 @@ export class IncomingIcoComponent implements OnInit {
   ngOnInit() {
     //load the incoming ico data
     this.icoService.getICOs().then((Ico: any) => {
-      console.log(Ico);
+
+      let icoData = JSON.parse(Ico);
+      this.Icos = Ico;
       if (Ico) {
-        this.Icos = Ico.ico.upcoming.map((Ico) => {
+        this.Icos = icoData.ico.upcoming.map((Ico) => {
           if(!Ico.name) {
             console.log('no icos');
           }

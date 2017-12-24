@@ -18,7 +18,7 @@ export class IcoService {
       console.log(this.ICOuri);
       return this.http.get(this.ICOuri)
       .toPromise()
-      .then(response => response.json() as Ico[])
+      .then(response => response.json())
       .catch(this.handleError);
   }
 

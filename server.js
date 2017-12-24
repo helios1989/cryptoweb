@@ -22,7 +22,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
     //Save database object from the callback for reuse
     db = database;
     console.log("Database conection ready");
-    // ForceSSL  middleware
+    // ForceSSL  middlewares
 })
 
 const forceSSL = function() {

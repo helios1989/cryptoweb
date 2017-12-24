@@ -7,6 +7,10 @@ import { MaterialModule } from './material.module';
 import { NavtoolbarComponent } from './component/navtoolbar/navtoolbar.component';
 import { IncomingIcoComponent } from './component/incoming-ico/incoming-ico.component';
 import { AppRoutingModule } from './app.routing.module';
+import { HttpModule } from '@angular/http';
+
+//services
+import { IcoService } from './component/incoming-ico/ico-services.service';
 
 @NgModule({
   declarations: [
@@ -16,12 +20,13 @@ import { AppRoutingModule } from './app.routing.module';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [IcoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

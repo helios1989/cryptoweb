@@ -4,8 +4,14 @@
 
         <span class="example-spacer"></span>
 
-        <button mat-button routerLink="/ICOS">Incoming ICOS</button>
+        <!-- <button mat-button routerLink="/ICOS">Incoming ICOS</button> -->
+        <button mat-button [matMenuTriggerFor]="menu">ICO</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/ICOS">Incoming Ico</button>
+            <button mat-menu-item>Ended Ico</button>
+        </mat-menu>
         <button mat-button>LEGIT TOKENS</button>
         <button mat-button>ICO Reviews</button>
+
     </mat-toolbar-row>
 </mat-toolbar>

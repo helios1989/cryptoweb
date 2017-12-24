@@ -10,7 +10,7 @@ var db = '';
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
-//create link to angular build directory
+//create link to angular build directory for local use .env
 process.env.MONGODB_URI = 'mongodb://vergel:vergel@ds029106.mlab.com:29106/heroku_dj330wf0';
 const port = process.env.PORT || 8605;
 //Connect to the database before starting the application server.

@@ -8,8 +8,8 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class IcoService {
-  private base_url = window.location.origin;
-  private ICOuri = window.location.origin + '/api/incomingICO';
+  
+  private ICOuri = '/api/incomingICO';
   
   constructor(private http: Http) { }
 

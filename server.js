@@ -1,86 +1,28 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
 const path = require('path');
-const request = require('request');
-var bodyParser = require('body-parser');
-var mongodb = require('mongodb');
-var objectID = mongodb.ObjectID;
+const http = require('http');
+const app = express();
+const externalApi = require('./api_routes/api');
 
-var db = '';
-
-app.use(bodyParser.urlencoded({ extended: true }))
+//Parser
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-//create link to angular build directory for local use .env
-process.env.MONGODB_URI = 'mongodb://vergel:vergel@ds029106.mlab.com:29106/heroku_dj330wf0';
-const port = process.env.PORT || 8605;
-//Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
-    if (err) {
-        console.log(err);
-        process.exit(1);
-    }
-    //Save database object from the callback
-    db = database;
-    console.log("Database conection ready");
-    // ForceSSL  middlewares
-})
 
-const forceSSL = function() {
-    return function(req, res, next) {
-        if (req.headers['x-forwarded-proto'] !== 'https') {
-            return res.redirect(
-                ['https://', req.get('Host'), req.url].join('')
-            );
-        }
-        next();
-    }
-}
-app.listen(port, function(r, res) {
-    console.log('listening  to ' + port);
-});
+// Angular DIST output folder
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// app.use(forceSSL());
-app.use(express.static(__dirname + '/dist'));
-
-app.get('/api/health-check', function(req, res, next) {
-    res.json({ "status": "ok", "port": port });
-});
-
-app.get('/api/incomingICO', function(req, res, next) {
-    // res.json({ "health": "ok" });
-    request('https://api.icowatchlist.com/public/v1/upcoming', function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
-        res.json(body);
-    });
-});
-
-const handleError = function(res, reason, message, code) {
-    console.log('Error : ' + reason);
-    res.status(code || 500).json({ "error": message });
-};
-
-
-app.post("/api/newUser", function(req, res) {
-
-    var item = {
-        username: req.body.username,
-        password: req.body.password,
-        name: req.body.name
-    };
-
-    db.collection('user-data').insertOne(item, function(err, doc) {
-        console.log(doc);
-        if (err) {
-            handleError(res, err.message, "Failed to create new contact.");
-        } else {
-            res.status(201).json(doc.ops[0]);
-        }
-    });
-    res.send('save success');
-});
+//Api location new User
+app.use('/api', externalApi);
 
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
+
+//Set Port
+const port = process.env.PORT || 8605;
+app.set('port', port);
+
+const server = http.createServer(app);
+
+server.listen(port, () => console.log(`Running on localhost:${port}`));

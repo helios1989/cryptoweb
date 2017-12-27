@@ -1,0 +1,22 @@
+<div class="loginForm" layout="row" layout-align="center center">
+    <mat-card class="loginCard">
+        <mat-toolbar color="">
+            <h2>Login</h2>
+        </mat-toolbar>
+        <mat-card-content>
+            <mat-form-field class="login-full-width">
+                <input matInput class="username" placeholder="Username">
+            </mat-form-field>
+            <mat-form-field class="login-full-width">
+                <input matInput type="password" class="password">
+            </mat-form-field>
+            <div>
+                <span class="spacer"></span>
+                <button mat-raised-button color="accent">Login</button>
+                <button mat-raised-button color="danger">Cancel</button>
+                <a routerLink="/signup">Signup</a>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

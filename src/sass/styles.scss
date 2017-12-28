@@ -3,34 +3,34 @@
 
 // 1. Configuration and helpers
 @import
-  'abstracts/variables',
-  'abstracts/functions',
-  'abstracts/mixins';
+  './abstracts/_variables.scss',
+  './abstracts/_function.scss',
+  './abstracts/_mixins.scss';
 
 // 2. Vendors
 @import
-  'vendor/normalize';
+  './vendor/_normalize.scss';
 
 // 3. Base stuff
 @import
-  'base/base',
-  'base/fonts',
-  'base/typography',
-  'base/helpers';
+  './base/_base.scss',
+  './base/_fonts.scss',
+  './base/_typography.scss',
+  './base/_helper.scss';
 
 // 4. Layout-related sections
 @import
-  'layout/header',
-  'layout/footer';
+  './layout/_header.scss',
+  './layout/_footer.scss';
 
 // 5. Components
 @import
-  'components/button';
+  './components/_button.scss';
 
 // 6. Page-specific styles
 @import
-  'pages/home';
+  './pages/_home.scss';
 
 // 7. Themes
 @import
-  'themes/default';
+  './themes/_default.scss';

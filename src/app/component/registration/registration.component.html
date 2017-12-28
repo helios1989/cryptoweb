@@ -3,7 +3,6 @@
         <mat-toolbar color="">
             <h2>Registration</h2>
         </mat-toolbar>
-        {{rForm.value | json}}
         <mat-card-content>
             <form [formGroup]="rForm" (ngSubmit)="submitForm(rForm.value)">
                 <mat-form-field class="login-full-width">

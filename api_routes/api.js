@@ -35,8 +35,11 @@ let response = {
     message: null
 };
 
+const baseIcoWatch = 'https://api.icowatchlist.com/public/v1/';
 let externalRoutes = {
-    upComingIco: 'https://api.icowatchlist.com/public/v1/upcoming'
+    upComingIco: baseIcoWatch + 'upcoming',
+    liveIco: baseIcoWatch + 'live',
+    finishedIco: baseIcoWatch + 'finished'
 }
 
 //upcmoing ico
@@ -50,6 +53,16 @@ router.get('/incomingICO', function(req, res, next) {
         res.json(body);
     });
 });
+
+//Live Ico
+router.get('/liveICO', function( req, res, next){
+    request(externalRoutes.liveIco, function(error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        // console.log('body:', body); // Print the HTML for the Google homepage.
+        res.json(JSON.parse(body));
+    });
+})
 
 //HEALTH CHECK
 router.get('/health-check', (req, res) => {
@@ -96,6 +109,26 @@ router.post('/newUser', (req, res) => {
             });
     });
 });
+//signin
+router.put('/signin', function(req, res, next){
+
+    connection((db) => {
+        db.collection('user-data')
+            .findOne({ 'username': req.body.username })
+            .then((response) => {
+                let isLogin = encrypt.comparePassword(req.body.password, response.password);
+                if (isLogin) {
+                    res.send('whaaaat'); //meaning ok
+                } else {
+                    res.status(400).send("Oh uh something wend wrong" + isLogin); //not ok // invalida username or password
+                }
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+
+})
 //get list of users
 router.get('/users', function(req, res, next) {
     connection((db) => {
@@ -155,8 +188,6 @@ router.delete('/users/:id', (req, res) => {
     }
 });
 
-
-
 /**
  * Update a user
  *
@@ -168,7 +199,7 @@ router.delete('/users/:id', (req, res) => {
  * @param {string =} password
  * @param {string =} email
  */
-router.put('/user/:id', (req, res) => {
+router.put('/users/:id', (req, res) => {
     if (ObjectID.isValid(req.params.id)) {
         var updateDoc = req.body;
         delete updateDoc._id;

@@ -7,6 +7,8 @@ const encrypt = require('./util/encrypt');
 const assert = require('assert');
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SecretKey || 'secretKey'; //add secret key in server environment
+const decrypt = require('bcryptjs');
+
 
 // Connect
 if (process.env.NODE_ENV !== 'production') {
@@ -55,7 +57,7 @@ router.get('/incomingICO', function(req, res, next) {
 });
 
 //Live Ico
-router.get('/liveICO', function( req, res, next){
+router.get('/liveICO', function(req, res, next) {
     request(externalRoutes.liveIco, function(error, response, body) {
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
@@ -110,26 +112,32 @@ router.post('/newUser', (req, res) => {
     });
 });
 //signin
-router.put('/signin', function(req, res, next){
+router.put('/signin', function(req, res, next) {
 
-    connection((db) => {
-        db.collection('user-data')
-            .findOne({ 'username': req.body.username })
-            .then((response) => {
-                let isLogin = encrypt.comparePassword(req.body.password, response.password);
-                if (isLogin) {
-                    res.send('whaaaat'); //meaning ok
-                } else {
-                    res.status(400).send("Oh uh something wend wrong" + isLogin); //not ok // invalida username or password
-                }
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+        connection((db) => {
+            db.collection('user-data')
+                .findOne({ 'username': req.body.username })
+                .then((response) => {
+                    console.log(response.password);
+                    decrypt.compare(
+                        req.body.password,
+                        response.password
+                    ).then(function(result) {
+                        console.log(result);
+                        if (result) {
+                            res.send('ok');
+                        } else {
+                            res.status(400).send('uh oh something wrong');
+                        }
+                    });
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
 
-})
-//get list of users
+    })
+    //get list of users
 router.get('/users', function(req, res, next) {
     connection((db) => {
         db.collection('user-data')

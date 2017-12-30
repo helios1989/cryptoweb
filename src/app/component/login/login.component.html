@@ -3,20 +3,21 @@
         <mat-toolbar color="">
             <h2>Login</h2>
         </mat-toolbar>
-        <mat-card-content>
-            <mat-form-field class="login-full-width">
-                <input matInput class="username" placeholder="Username">
-            </mat-form-field>
-            <mat-form-field class="login-full-width">
-                <input matInput type="password" class="password">
-            </mat-form-field>
-            <div>
-                <span class="spacer"></span>
-                <button mat-raised-button color="accent">Login</button>
-                <button mat-raised-button color="danger">Cancel</button>
-                <a routerLink="/signup">Signup</a>
-            </div>
-
-        </mat-card-content>
+        <form [formGroup]="rForm" (ngSubmit)="submitForm(rForm.value)">
+            <mat-card-content>
+                <mat-form-field class="login-full-width">
+                    <input matInput [formControl]="rForm.controls['username']" class="username" placeholder="Username">
+                </mat-form-field>
+                <mat-form-field class="login-full-width">
+                    <input matInput [formControl]="rForm.controls['password']" type="password" class="password">
+                </mat-form-field>
+                <div>
+                    <span class="spacer"></span>
+                    <button mat-raised-button color="accent">Login</button>
+                    <button mat-raised-button color="danger">Cancel</button>
+                    <a routerLink="/signup">Signup</a>
+                </div>
+            </mat-card-content>
+        </form>
     </mat-card>
 </div>

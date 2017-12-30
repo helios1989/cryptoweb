@@ -113,12 +113,15 @@ router.post('/newUser', (req, res) => {
 });
 //signin
 router.put('/signin', function(req, res, next) {
-
+        console.log('called');
+        console.log(req.body);
+        console.log(req.params);
         connection((db) => {
             db.collection('user-data')
                 .findOne({ 'username': req.body.username })
                 .then((response) => {
-                    console.log(response.password);
+                    if (!response)
+                        res.status(400).send('no username available');
                     decrypt.compare(
                         req.body.password,
                         response.password

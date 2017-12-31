@@ -31,9 +31,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   submitForm(formValue) {
-    console.log('called', formValue);
     this.loginService.signIn(formValue).then((newUser: NewUser) => {
-      console.log('successfully addded ' + newUser);
+      // console.log('successfully addded ' + newUser);
+      if (newUser) {
+        console.log('successfully login' + newUser.username);
+      } else {
+        console.log('invalid username and password');
+      }
       // this.router.navigate(['']);
     }).catch(this.handleError);
   }

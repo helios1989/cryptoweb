@@ -104,7 +104,7 @@ router.post('/newUser', (req, res) => {
             .insertOne(newUser)
             .then((user) => {
                 // db.collection('user-data').createIndex({ "email": 1 }, { unique: true })
-                return res.json({ 'ok': '200' });
+                return res.json(newUser)
             })
             .catch((err) => {
                 sendError(err, res);
@@ -113,9 +113,9 @@ router.post('/newUser', (req, res) => {
 });
 //signin
 router.put('/signin', function(req, res, next) {
-        console.log('called');
-        console.log(req.body);
-        console.log(req.params);
+        let newUser = {
+            username: req.body.username
+        }
         connection((db) => {
             db.collection('user-data')
                 .findOne({ 'username': req.body.username })
@@ -126,9 +126,8 @@ router.put('/signin', function(req, res, next) {
                         req.body.password,
                         response.password
                     ).then(function(result) {
-                        console.log(result);
                         if (result) {
-                            res.send('ok');
+                            res.send(newUser);
                         } else {
                             res.status(400).send('uh oh something wrong');
                         }

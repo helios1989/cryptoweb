@@ -45,16 +45,32 @@ let externalRoutes = {
 }
 
 //upcmoing ico
-router.get('/incomingICO', function(req, res, next) {
-    // res.json({ "health": "ok" });
-    //TODO change to axios or bluebird for promise support
-    request(externalRoutes.upComingIco, function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
-        res.json(body);
+router.get('/incomingICO', ensureToken, function(req, res, next) {
+    jwt.verify(req.token, req.body.username, function(err, data) {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            request(externalRoutes.upComingIco, function(error, response, body) {
+                console.log('error:', error); // Print the error if one occurred
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                // console.log('body:', body); // Print the HTML for the Google homepage.
+                res.json(body);
+            });
+        }
     });
 });
+
+function ensureToken(req, res, next) {
+    const bearerheader = req.headers["authorization"];
+    if (typeof bearerheader !== 'undefined') {
+        const bearer = bearerheader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+}
 
 //Live Ico
 router.get('/liveICO', function(req, res, next) {
@@ -90,7 +106,7 @@ router.post('/newUser', (req, res) => {
     //1 hour expiration
     let token = jwt.sign({
         id: 3
-    }, req.body.username, { expiresIn: '1h' });
+    }, req.body.username);
 
     let newUser = {
         username: req.body.username,
@@ -112,9 +128,10 @@ router.post('/newUser', (req, res) => {
     });
 });
 //signin
-router.put('/signin', function(req, res, next) {
+router.post('/signin', function(req, res, next) {
         let newUser = {
-            username: req.body.username
+            username: req.body.username,
+            token: ''
         }
         connection((db) => {
             db.collection('user-data')
@@ -122,6 +139,7 @@ router.put('/signin', function(req, res, next) {
                 .then((response) => {
                     if (!response)
                         res.status(400).send('no username available');
+                    newUser.token = response.token;
                     decrypt.compare(
                         req.body.password,
                         response.password

@@ -4,6 +4,7 @@ export class NewUser {
         public password?: string,
         public confirmPassword?: string, 
         public fullname?: string,
-        public email?: string
+        public email?: string,
+        public token?: string
 ) {}
 }

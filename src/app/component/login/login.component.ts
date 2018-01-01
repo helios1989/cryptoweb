@@ -35,6 +35,9 @@ export class LoginComponent implements OnInit {
       // console.log('successfully addded ' + newUser);
       if (newUser) {
         console.log('successfully login' + newUser.username);
+        sessionStorage.setItem('username', newUser.username);
+        sessionStorage.setItem('token', newUser.token)
+        // console.log(sessionStorage.getItem('username'));
       } else {
         console.log('invalid username and password');
       }

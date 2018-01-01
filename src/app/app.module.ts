@@ -14,6 +14,8 @@ import { IcoService } from './component/incoming-ico/ico-services.service';
 import { AuthenticationService } from './authentication/authentication.service';
 import { LoginComponent } from './component/login/login.component';
 import { RegistrationComponent } from './component/registration/registration.component';
+import { AuthenticationGuard } from './authentication/authentication.guard';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { RegistrationComponent } from './component/registration/registration.com
     AppRoutingModule,
     MaterialModule
   ],
-  providers: [IcoService, AuthenticationService],
+  providers: [IcoService, AuthenticationService, AuthenticationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

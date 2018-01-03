@@ -45,20 +45,25 @@ let externalRoutes = {
 }
 
 //upcmoing ico
-router.get('/incomingICO', ensureToken, function(req, res, next) {
-    jwt.verify(req.token, req.body.username, function(err, data) {
+router.get('/incomingICO', function(req, res, next) {
+    request(externalRoutes.upComingIco, function(error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        // console.log('body:', body); // Print the HTML for the Google homepage.
+        res.json(body);
+    });
+});
+
+router.post('/verifyUser', ensureToken, function(req, res, next){
+     console.log(req.body.username);
+      jwt.verify(req.token, req.body.username, function(err, data) {
         if (err) {
             res.sendStatus(403);
         } else {
-            request(externalRoutes.upComingIco, function(error, response, body) {
-                console.log('error:', error); // Print the error if one occurred
-                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-                // console.log('body:', body); // Print the HTML for the Google homepage.
-                res.json(body);
-            });
+            res.sendStatus(200);
         }
     });
-});
+})
 
 function ensureToken(req, res, next) {
     const bearerheader = req.headers["authorization"];

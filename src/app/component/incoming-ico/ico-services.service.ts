@@ -14,8 +14,6 @@ export class IcoService {
   constructor(private http: Http) { }
 
   getICOs() {
-      
-      console.log(this.ICOuri);
       return this.http.get(this.ICOuri)
       .toPromise()
       .then(response => response.json())

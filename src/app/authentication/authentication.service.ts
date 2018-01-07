@@ -17,21 +17,19 @@ export class AuthenticationService {
     'Bearer '+ sessionStorage.getItem('token')});
   constructor(private http: Http) { }
 
-  authenticateUser(): boolean {
+  authenticateUser(): Promise<any> {
     const url = '/api/verifyUser';
     const username = { 'username': sessionStorage.getItem('username')};
     let retValue = false;
-    this.http.post(url, username, {headers: this.header}).subscribe(res => {
-       
-      if (res.status === 200) {
-        console.log('is ok');
-        retValue =  true;
-      } else {
-        retValue =  false;
-      }
-    });
-    return retValue;
-    // return false;
+    return this.http.post(url, username, {headers: this.header})
+    .toPromise()
+    .then(response => response.json());
+  }
+  private handleError (error: any) {
+    console.log('this is error', error);
+    let errMsg = (error.message) ? error.message :
+    error.status ? `${error.status} - ${error.statusText}` : 'Server error data';
+    console.error(error); // log to console instead
   }
 
 }

@@ -47,8 +47,9 @@ const optUrl = {
     url: ''
 }
 
-router.get('/redditnews', function(req, res, next) {
-    parser.parseURL('https://www.reddit.com/r/CryptoCurrency.rss', function(err, parsed) {
+router.get('/redditnews/:token', function(req, res, next) {
+    let token = req.params.token;
+    parser.parseURL('https://www.reddit.com/r/' + token + '.rss', function(err, parsed) {
         res.json(parsed);
     });
 })

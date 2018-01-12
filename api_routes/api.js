@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
-const request = require('request');
+const request = require('request-promise');
 const encrypt = require('./util/encrypt');
 const assert = require('assert');
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SecretKey || 'secretKey'; //add secret key in server environment
 const decrypt = require('bcryptjs');
-
+const parser = require('rss-parser');
 
 // Connect
 if (process.env.NODE_ENV !== 'production') {
@@ -43,20 +43,35 @@ let externalRoutes = {
     liveIco: baseIcoWatch + 'live',
     finishedIco: baseIcoWatch + 'finished'
 }
+const optUrl = {
+    url: ''
+}
+
+router.get('/redditnews', function(req, res, next) {
+    parser.parseURL('https://www.reddit.com/r/CryptoCurrency.rss', function(err, parsed) {
+        res.json(parsed);
+    });
+})
+
+router.get('/ethereumnews', function(req, res, next) {
+    parser.parseURL('ethereumworldnews.com/feed', function(err, parsed) {
+        res.json(parsed);
+    });
+})
 
 //upcmoing ico
 router.get('/incomingICO', function(req, res, next) {
-    request(externalRoutes.upComingIco, function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
-        res.json(body);
-    });
+    optUrl.url = externalRoutes.upComingIco;
+    request(optUrl).then(data => {
+        res.json(data);
+    }).catch(err => {
+        console.log(err);
+    })
 });
 
-router.post('/verifyUser', ensureToken, function(req, res, next){
-     console.log(req.body.username);
-      jwt.verify(req.token, req.body.username, function(err, data) {
+router.post('/verifyUser', ensureToken, function(req, res, next) {
+    console.log(req.body.username);
+    jwt.verify(req.token, req.body.username, function(err, data) {
         if (err) {
             res.sendStatus(403);
         } else {
@@ -79,12 +94,12 @@ function ensureToken(req, res, next) {
 
 //Live Ico
 router.get('/liveICO', function(req, res, next) {
-    request(externalRoutes.liveIco, function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
-        res.json(JSON.parse(body));
-    });
+    optUrl.url = externalRoutes.liveIco;
+    request(optUrl).then(data => {
+        res.json(data);
+    }).catch(err => {
+        console.log(err);
+    })
 })
 
 //HEALTH CHECK
